@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:batch="http://www.springframework.org/schema/batch"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+    <!-- This is the XML way to define jobs but it will be very handy if you already have jobs like this -->
+
+    <batch:job id="xmlJob" restartable="true" incrementer="incrementer">
+
+        <batch:step id="firstStep">
+            <batch:tasklet ref="firstTasklet" start-limit="1"/>
+        </batch:step>
+
+
+    </batch:job>
+
+    <bean id="firstTasklet" class="com.thinkhappily.batch.tasklet.PropertyReaderTasklet">
+        <property name="value" value="${textValue}"/>
+    </bean>
+
+    <bean id="incrementer" class="org.springframework.batch.core.launch.support.RunIdIncrementer"/>
+
+</beans>
