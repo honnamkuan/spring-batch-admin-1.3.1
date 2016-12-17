@@ -6,7 +6,7 @@
 	<groupId>com.thinkhappily</groupId>
 	<artifactId>SpringBatch</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>${packaging.type}</packaging>
 
 	<name>spring-boot-batch-admin</name>
 	<description>Spring Batch with Admin UI</description>
@@ -15,18 +15,18 @@
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.4.2.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-        <logging.file.path>&#36;{catalina.base:}/logs</logging.file.path>
+		<packaging.type>jar</packaging.type>
+		<logging.file.path>target/logs</logging.file.path>
 	</properties>
 
 	<dependencies>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
@@ -76,6 +76,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>${project.artifactId}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -85,13 +86,19 @@
 	</build>
 
     <profiles>
-        <profile>
-            <id>development</id>
-            <properties>
-                <logging.file.path>target/logs</logging.file.path>
-            </properties>
-        </profile>
+		<profile>
+			<id>buildWar</id>
+			<dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-tomcat</artifactId>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+			<properties>
+				<logging.file.path>&#36;{catalina.base:}/logs</logging.file.path>
+				<packaging.type>war</packaging.type>
+			</properties>
+		</profile>
     </profiles>
-
-
 </project>
